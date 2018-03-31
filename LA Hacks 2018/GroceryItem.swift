@@ -15,9 +15,9 @@ class Item{
     var nutritionJSON : [String : Any]
     let foodGroup: String
     
-    init(itemName:String) {
+    init(itemName:String, itemPrice: double_t) {
         name = itemName
-        price = -1
+        price = itemPrice
         keyID = "-1"
         nutritionJSON = [:]
         foodGroup = ""
@@ -46,6 +46,7 @@ class Item{
         //** TO DO: search function here
         
         // extract nbdno value from JSON, which is the key
+        
         //null value for now
         JSONresponse = [:]
         //** TO DO: check if JSON returned is empty

@@ -23,7 +23,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        MakeGoogleVisionAPIRestCall(image: UIImage(imageLiteralResourceName: "CalPolyAcceptance"))
+        let imageName = "receipt1"
+        MakeGoogleVisionAPIRestCall(image: UIImage(imageLiteralResourceName: imageName))
     }
     
     
