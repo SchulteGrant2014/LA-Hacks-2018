@@ -8,23 +8,47 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
     
     // -------------------- Member Variables ---------------------
+    
     var apiResponseJSON : [String : Any] = [:]
     
+    
+    
     // -------------------- Default functions --------------------
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        MakeGoogleVisionAPIRestCall(image: UIImage(imageLiteralResourceName: "CalPolyAcceptance"))
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    // -------------------- UI Element Function Connections --------------------
+    
+    @IBAction func openImageViewController(_ sender: Any) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    
     // ------------------------- GOOGLE VISION API REST CALL -------------------------
+    
     func MakeGoogleVisionAPIRestCall(image: UIImage) {
         let googleVisionAPI_url : String = "https://vision.googleapis.com/v1/images:annotate"
         let apiKey_url : String = "AIzaSyBGDpjGUxH2Qz5STe50j4QZl-mTeco0ms8"
@@ -97,8 +121,7 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
- 
-
+    
 }
 
 
@@ -114,6 +137,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     }
 }
 
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
@@ -123,6 +147,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
         return rhs < lhs
     }
 }
+
 
 func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
     UIGraphicsBeginImageContext(imageSize)
