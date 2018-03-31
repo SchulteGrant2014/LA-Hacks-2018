@@ -2,7 +2,7 @@
 //  GroceryItem.swift
 //  LA Hacks 2018
 //
-//  Created by Ray Li on 3/31/18.
+//  Created by Jeannie Huang on 3/31/18.
 //  Copyright © 2018 Consonants. All rights reserved.
 //
 
