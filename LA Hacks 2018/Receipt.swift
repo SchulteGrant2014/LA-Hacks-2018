@@ -18,22 +18,17 @@ class Receipt {
     // -------------------- Member Functions --------------------
     
     init(image: UIImage) {
-        MakeGoogleVisionAPIRestCall(image: image)  // Call the Google Vision API to return a json
+        var googleVisionJSON: [String:Any] = MakeGoogleVisionAPIRestCall(image: image)  // Call the Google Vision API to return a json
         
     }
     
     
     // ------------------------- GOOGLE VISION API REST CALL -------------------------
     
-    func MakeGoogleVisionAPIRestCall(image: UIImage) -> [String : Any]? {
+    private func MakeGoogleVisionAPIRestCall(image: UIImage) -> [String : Any] {
         let googleVisionAPI_url : String = "https://vision.googleapis.com/v1/images:annotate"
         let apiKey_url : String = "AIzaSyBGDpjGUxH2Qz5STe50j4QZl-mTeco0ms8"
         let url_string : String = googleVisionAPI_url + "?key=" + apiKey_url
-        
-        guard let url = URL(string: url_string) else {
-            print("Error: cannot create URL")
-            return nil
-        }
         
         // Convert image to base64 format
         let image_as_base64: String = base64EncodeImage(image)
@@ -52,53 +47,8 @@ class Receipt {
             ]
         ]
         
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
-        
-        let jsonData: Data
-        do {
-            jsonData = try JSONSerialization.data(withJSONObject: data, options: [])
-            urlRequest.httpBody = jsonData  // Set the JSON data to be the body of the request... Will send JSON to Google Vision API
-            print("JSON sterilization of request dictionary was successful")
-        } catch {
-            print("Error: cannot create JSON from data")
-            return nil
-        }
-        
-        
-        let session = URLSession.shared
-        
-        
-        var apiResponseJSON : [String : Any] = [:]
-        
-        let task = session.dataTask(with: urlRequest) { (data, response, error) in
-            guard error == nil else {
-                print("error calling POST on /todos/1")
-                print(error!)
-                return
-            }
-            guard let responseData = data else {
-                print("Error: did not receive data")
-                return
-            }
-            
-            // parse the result as JSON, since that's what the API provides
-            do {
-                guard let receivedData = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] else {
-                    print("Could not get JSON from responseData as dictionary")
-                    return
-                }
-                print("Data received...")
-                apiResponseJSON = receivedData
-                print(receivedData)
-            } catch  {
-                print("error parsing response from POST on /todos")
-                return
-            }
-        }
-        task.resume()
+        // Perform a REST_API call to the Google Vision API
+        let apiResponseJSON = RESTCall(url: url_string, jsonRequestAsDictionary: data).doRESTCall()
         
         return apiResponseJSON
         

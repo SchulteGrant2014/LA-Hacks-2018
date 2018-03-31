@@ -14,11 +14,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // -------------------- Member Variables ---------------------
     
-    var apiResponseJSON : [String : Any] = [:]
-    
-    @IBAction func printAPIResponse(_ sender: UIButton) {
-        print(apiResponseJSON)
-    }
     
     
     // -------------------- Default functions --------------------
@@ -26,10 +21,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        // Initialize a new receipt
-        let url_string: String = "https://api.nal.usda.gov/ndb/search/?format=json&q=butter&sort=n&max=25&offset=0&api_key=DEMO_KEY"
-        self.apiResponseJSON = RESTCall(url: url_string, jsonRequestAsDictionary: nil).doRESTCall(requestType: "POST")
-        print(self.apiResponseJSON)
+        
     }
     
     

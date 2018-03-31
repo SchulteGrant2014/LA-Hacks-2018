@@ -11,12 +11,14 @@ import UIKit
 
 class RESTCall {
     
-    let url_string: String
-    let jsonRequestDict: [String : Any]?
+    private let url_string: String
+    private let jsonRequestDict: [String : Any]?
+    private var jsonResponse: [String : Any]?
     
     init(url: String, jsonRequestAsDictionary: [String : Any]?) {
         self.url_string = url
         self.jsonRequestDict = jsonRequestAsDictionary
+        self.jsonResponse = nil
     }
     
     
@@ -24,21 +26,19 @@ class RESTCall {
     // -------------------- MAKE THE REST CALL, RETURN JSON DICTIONARY --------------------
     
     func doRESTCall(requestType: String = "POST") -> [String:Any] {
-        var response: [String:Any]? = nil
-        while (response == nil) {
-            if let responseJSON = RESTCall(url: url_string, jsonRequestAsDictionary: nil).REST_backend() {
-                response = responseJSON
-            }
+        self.REST_backend()
+        while(self.jsonResponse == nil) {
+            // print("Waiting")
         }
-        return response!
+        return self.jsonResponse!
     }
     
     
     
-    func REST_backend(requestType: String = "POST") -> [String : Any]? {
+    private func REST_backend(requestType: String = "POST") {
         guard let url = URL(string: url_string) else {
             print("Error: cannot create URL")
-            return nil
+            return
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = requestType  // "POST" by default
@@ -53,12 +53,11 @@ class RESTCall {
                 print("JSON sterilization of request dictionary was successful")
             } catch {
                 print("Error: cannot create JSON from data")
-                return nil
+                return
             }
         }
         
         let session = URLSession.shared
-        var apiResponseJSON: [String:Any] = [:]
         let task = session.dataTask(with: urlRequest) { (data, response, error) in
             guard error == nil else {
                 print("error calling POST on /todos/1")
@@ -76,17 +75,15 @@ class RESTCall {
                     print("Could not get JSON from responseData as dictionary")
                     return
                 }
-                print("Data received...")
-                apiResponseJSON = receivedData
-                //print(receivedData)
-            } catch  {
+                print("Data received...!")
+                self.jsonResponse = receivedData
+            } catch {
                 print("error parsing response from POST on /todos")
                 return
             }
         }
         task.resume()
         
-        return apiResponseJSON  // Return the JSON response that was sent from the API
     }
     
 }
