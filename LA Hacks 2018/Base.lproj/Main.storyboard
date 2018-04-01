@@ -1,45 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Explore View Controller-->
-        <scene sceneID="zeQ-Oh-BIw">
-            <objects>
-                <viewController id="Iya-Tv-mKu" customClass="ExploreViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HjD-fz-pMi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" currentPage="2" translatesAutoresizingMaskIntoConstraints="NO" id="gbX-ia-k79">
-                                <rect key="frame" x="168" y="610" width="39" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </pageControl>
-                        </subviews>
-                        <color key="backgroundColor" red="0.83001770470000003" green="0.9576336473" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <gestureRecognizers/>
-                        <viewLayoutGuide key="safeArea" id="57V-BZ-dpK"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="xh9-hT-eob" appends="YES" id="O7Y-Ih-zd0"/>
-                        </connections>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MGR-3M-uMW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="xh9-hT-eob">
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" id="iDi-uV-3nn"/>
-                    </connections>
-                </swipeGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="852" y="33"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -80,18 +50,14 @@
                         <segue destination="ssh-0q-ck0" kind="show" id="wdn-tg-Klr"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="left" id="JQn-7u-biJ">
-                    <connections>
-                        <segue destination="Iya-Tv-mKu" kind="show" id="854-Hq-vdv"/>
-                    </connections>
-                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="JQn-7u-biJ"/>
             </objects>
             <point key="canvasLocation" x="104.8" y="32.833583208395808"/>
         </scene>
         <!--Add Image View Controller-->
         <scene sceneID="87P-S5-ybU">
             <objects>
-                <viewController id="ssh-0q-ck0" customClass="AddImageViewController" sceneMemberID="viewController">
+                <viewController id="ssh-0q-ck0" customClass="AddImageViewController" customModule="LA_Hacks_2018" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WyX-QP-45A">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -100,6 +66,28 @@
                                 <rect key="frame" x="168" y="610" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNg-qh-PQ4">
+                                <rect key="frame" x="114" y="525" width="147" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <state key="normal" title="Open Camera"/>
+                                <connections>
+                                    <action selector="CameraAction:" destination="ssh-0q-ck0" eventType="touchUpInside" id="tmU-3P-ZuG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLZ-Nq-GRj">
+                                <rect key="frame" x="85" y="572" width="205" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <state key="normal" title="Open Photo Library"/>
+                                <connections>
+                                    <action selector="PhotoLibraryAction:" destination="ssh-0q-ck0" eventType="touchUpInside" id="hbj-ux-cqp"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMo-K1-JwD">
+                                <rect key="frame" x="16" y="31" width="343" height="461"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.83001770470000003" green="0.9576336473" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <gestureRecognizers/>
@@ -108,18 +96,21 @@
                             <outletCollection property="gestureRecognizers" destination="tBQ-ag-PAV" appends="YES" id="zb2-jj-Yua"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="Camera" destination="XNg-qh-PQ4" id="Yva-Mc-K2v"/>
+                        <outlet property="ImageDisplay" destination="HMo-K1-JwD" id="qEx-Mh-6zc"/>
+                        <outlet property="PhotoLibrary" destination="RLZ-Nq-GRj" id="58J-5Q-67V"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5y-Pi-aI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="left" id="tBQ-ag-PAV">
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" id="Mux-5B-WF6"/>
+                        <segue destination="rnx-Iq-ZL1" kind="unwind" unwindAction="unwindToViewController:" id="yii-Xs-luZ"/>
                     </connections>
                 </swipeGestureRecognizer>
+                <exit id="rnx-Iq-ZL1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-642.39999999999998" y="32.833583208395808"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="iDi-uV-3nn"/>
-    </inferredMetricsTieBreakers>
 </document>
