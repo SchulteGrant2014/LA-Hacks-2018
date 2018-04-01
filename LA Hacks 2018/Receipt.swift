@@ -51,6 +51,7 @@ func MakeGoogleVisionAPIRestCall(image: UIImage) -> [String : Any] {
     
     // Perform a REST_API call to the Google Vision API
     let apiResponseJSON = RESTCall(url: url_string, jsonRequestAsDictionary: data).doRESTCall()
+    print("Done with Vision API REST call")
     
     return apiResponseJSON
     
@@ -103,7 +104,9 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
         }
         
         // Run through read and chech if there is an invalid character/word/number in it. If so, remove it.
-        var invalidSeqs = ["%", "#", "/", "OZ", ".", "Count", "COUNT", "Pack", "PACK", "EA", "@", "LB", "CT"]
+        // Remove anything that isn't a letter"
+        currentRead = currentRead.components(separatedBy: CharacterSet(charactersIn: "0123456789")).joined(separator: "")
+        var invalidSeqs = ["%", "#", "&", "OZ", ".", "Count", "COUNT", "Pack", "PACK", "EACH", "@", "LB", "CT", "DZ", "LRG", "ORGANIC", "ORG", "LARGE", "SMALL", "TJ'S", "TJS", "TJ", "R-", "A-", "W/", "/", "EA  EA"]
         for invalid in invalidSeqs {
             if currentRead.contains(invalid) {
                 currentRead = currentRead.replacingOccurrences(of: invalid, with: "")
@@ -113,11 +116,22 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
         // Now that the invalid cases have been handled, the remaining string is a valid read, unless it is empty. Add to the grocery list.
         let item: GroceryItem = GroceryItem(itemName: currentRead)
         if (item.isValid()) {
-            continue
-        } else {
             listOfGroceries.append(item)
+        } else {
+            print("------------------------------------\nEliminating " + item.name + "\n---------------------------------------")
+            continue
         }
         
+    }
+    
+    print("List of groceries")
+    print("List of groceries")
+    print("List of groceries")
+    print("List of groceries")
+    print("List of groceries")
+    print("List of groceries")
+    for x in listOfGroceries {
+        print(x.name + "     " + x.keyID!)
     }
     
     return listOfGroceries  // Return list of grocery items inferred from all rows of receipt

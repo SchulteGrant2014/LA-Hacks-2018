@@ -27,6 +27,12 @@ class GroceryItem {
         if (keyID == nil) {
             return false
         }
+        //var nameCopy: String = self.name
+        var newName: String = self.name.replacingOccurrences(of: " ", with: "")
+        if (newName == "") {
+            return false
+        }
+        
         return true
     }
     
@@ -45,7 +51,7 @@ func getKey(nameOfItem: String) -> String? {
     // want to search up grocery item key using the search API
     
     // let query = "apples"
-    let query = nameOfItem
+    let query = nameOfItem.replacingOccurrences(of: " ", with: "+")
     let max_results = "1"
     let api_key =  "1b5LF51ZHbTrasDtok7xgpMFvYTQ2Th698xzyC7J" // key that Cris signed up for
     var search_URL = "https://api.nal.usda.gov/ndb/search/?format=json&q=" + query
@@ -54,6 +60,7 @@ func getKey(nameOfItem: String) -> String? {
     //use search function in API call
     var JSONresponse : [String:Any]
     JSONresponse = RESTCall(url: search_URL, jsonRequestAsDictionary: nil).doRESTCall()
+    print("Done with NIH API REST call")
     print(JSONresponse)
     // extract nbdno value from JSON, which is the key
     var foodID: String? = nil
@@ -65,7 +72,6 @@ func getKey(nameOfItem: String) -> String? {
         return nil  // FAILED search: no items exist, so return nil to indicate failure
     }
     
-    print("Food ID (ndbno) = " + foodID!)
     
     return foodID
 }
