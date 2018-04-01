@@ -59,18 +59,25 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
     
     let response = googleVisionJSON["responses"] as! [[String:Any]]
     let textAnnotations = response[0]["textAnnotations"] as! [[String:Any]]
-    let fullText: String = textAnnotations[0]["description"] as! String
-    
-    //var rowsText: [String] = extractText(fullTextWithNewlines: fullText)
+    let fullText: String = textAnnotations[0]["description"] as! String  // Get ALL text from receipt, rows separated by new line characters
     print(fullText)
-    return []
+    var rowsText: [String] = extractRows(fullTextWithNewlines: fullText)  // Get a list of the individual rows from the receipt
+    
+    print(rowsText)
+    // Convert row text to grocery items
+    
+    
+    return []  // Return list of grocery items inferred from all rows of receipt
 }
 
-func extractText(fullTextWithNewlines: String) -> [String] {
+func extractRows(fullTextWithNewlines: String) -> [String] {
     
+    var rows: [String] = []
+    fullTextWithNewlines.enumerateLines { (line, _) -> () in
+        rows.append(line)
+    }
     
-    
-    return []
+    return rows
 }
 
 
