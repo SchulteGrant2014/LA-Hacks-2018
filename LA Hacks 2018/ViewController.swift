@@ -13,7 +13,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     // -------------------- Member Variables ---------------------
     
-    var receipts: [Receipts]
+    var receipts: [Receipt] = []
     
     
     
@@ -46,8 +46,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if let image = sourceViewController.ImageDisplay.image {
                 if receipts.count == 5 {
                     receipts.removeFirst(1)
-                    receipts.append(Receipts(image: image))
-                }
+                    receipts.append(Receipt(image: image))
+                } else {receipts.append(Receipt(image: image))}
             }
         }
     }
