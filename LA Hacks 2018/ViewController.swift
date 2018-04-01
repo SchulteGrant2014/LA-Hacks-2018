@@ -67,16 +67,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         //call methods that put data into charts
         if receipts.count == 0 {
             setEmptyPieChart()
-            setLineChart(dataPoints: nutrients, prevValues: prevPercentage, baseValues: baseline)
-            addLegend(num: 2, color: colors)
         }
-            
         else{
             setPieChart(dataPoints: nutrients, values: piePercentage)
-            setLineChart(dataPoints: nutrients, prevValues: prevPercentage, baseValues: baseline)
             addCurrentLine(values: linePercentage)
-            addLegend(num: 3, color: colors)
         }
+        setLineChart(dataPoints: nutrients, prevValues: prevPercentage, baseValues: baseline)
+        addLegend(num: receipts.count, color: colors)
     }
     
     
@@ -87,8 +84,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func setEmptyPieChart()
     {
-        //let noData = ["No Data"]
-        //let noDataValue = [0.0]
         var emptyPieChartEntries: [ChartDataEntry] = []
         emptyPieChartEntries.append(PieChartDataEntry(value: 100.0, label: "No Data"))
         
@@ -225,7 +220,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         lineChartView.legend.xEntrySpace = 60.0
          let secondLegend = LegendEntry.init(label: "Previous", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: color[1])
          let thirdLegend = LegendEntry.init(label: "Average Intake", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UIColor.black)
-        if (num > 2)
+        if (num > 0)
         {
             let firstLegend = LegendEntry.init(label: "Current", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: color[0])
             lineChartView.legend.entries = [firstLegend, secondLegend, thirdLegend]
