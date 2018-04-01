@@ -15,6 +15,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // -------------------- Member Variables ---------------------
     
     var receipts: [Receipt] = []
+    var idealRelativeNutrientPerc: [String:Double] = [ "Protein":11.34594, "Fats":13.570634, "Carbohydrates":61.179088, "Sugars":6.896552, "Dietary Fiber":7.007786 ]
+    // Nutrients = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
+    
     // chart stuff
     var pieChartView: PieChartView!
     var lineChartView: LineChartView!
@@ -33,10 +36,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.        
         var testReceipt: Receipt
-        if let img = UIImage(named: "tj4") {
+        if let img = UIImage(named: "tj1") {
             testReceipt = Receipt(image: img)
         } else {
-            print("I didn't run :(")
+            //print("I didn't run :(")
         }
         
         //charts
@@ -215,6 +218,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         lineChartView.data = lineChartData
     }
     
+    
     func addLegend(num: Int, color: [UIColor])
     {
         lineChartView.legend.enabled = true
@@ -232,6 +236,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    
     // -------------------- UI Element Function Connections --------------------
     
     @IBAction func unwindToViewController(_ sender: UIStoryboardSegue) {
@@ -244,6 +249,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+    
     
 }
 

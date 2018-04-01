@@ -13,14 +13,16 @@ class Receipt {
     // -------------------- Member Variables --------------------
     
     var itemList: [GroceryItem]
-    var nutritionFactsTotal: [String:Double]  // Store percentages of food by weight for each macronutrient
-    
+    var nutrientWeightsOfTotal: [String:Double]  // Store percent by weight of nutrient out of total weight of food
+    var nutritionFactsTotal: [String:Double]  // Store percentages of each macronutrient by weight relative to each other
+    // Nutrients = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
     
     // -------------------- Member Functions --------------------
     
     init(image: UIImage) {
         self.itemList = MakeItemList(image: image)
-        self.nutritionFactsTotal = [:]
+        self.nutrientWeightsOfTotal = PercentOfNutrientsPerTotalWeightOfFood(foods: itemList)
+        self.nutritionFactsTotal = RelativeGroceryNutrients(nutrientWeights: self.nutrientWeightsOfTotal)
     }
 }
 
@@ -137,6 +139,72 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
     return listOfGroceries  // Return list of grocery items inferred from all rows of receipt
 }
 
+
+
+func PercentOfNutrientsPerTotalWeightOfFood(foods: [GroceryItem]) -> [String:Double] {
+    
+    // Go through each nutrient in each item, storing the sum in a dictionary
+    
+    var aggregateDict : [String:Double] = [:]
+    let nutrList = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
+    for item in foods {
+        for nutrient in nutrList {
+            let valPer100g = item.nutritionDict[nutrient]!
+            print(item.name + "  " + nutrient + " = " + String(valPer100g))
+            if let existingValOfNutrient = aggregateDict[nutrient] {
+                aggregateDict[nutrient] = existingValOfNutrient + valPer100g
+            } else {
+                aggregateDict[nutrient] = valPer100g
+            }
+        }
+    }
+    
+    for nutrient in nutrList {
+        let numberOfFoods: Int = foods.count
+        if let nutrVal = aggregateDict[nutrient] {
+            aggregateDict[nutrient] = nutrVal / Double(numberOfFoods)  // grams of nutrient per 100 grams of food, average over receipt
+        }
+    }
+    
+    // Check nutrient values of all foods
+    print("\n")
+    for nutr in nutrList {
+        print(nutr + " = Aggregate " + String(aggregateDict[nutr]!))
+    }
+    
+    // Find the total
+    
+    return aggregateDict
+}
+
+
+
+func RelativeGroceryNutrients(nutrientWeights: [String:Double]) -> [String:Double] {
+    
+    // Get the total weight of all nutrients, then divide each nutrient by the total weight to yield the percentages of each nutrient in relation to the others
+    var sumOfWeights: Double = 0.0
+    for nutrient in nutrientWeights {
+        sumOfWeights += nutrient.value
+    }
+    
+    // Get the relative weight of each
+    var relativeNutrientWeights: [String:Double] = [:]
+    for nutrient in nutrientWeights {
+        relativeNutrientWeights[nutrient.key] = (nutrient.value / sumOfWeights) * Double(100)
+    }
+    
+    // Print the results
+    for nutrient in relativeNutrientWeights {
+        print(nutrient.key + " = " + String(nutrient.value) + "% of all macronutrients")
+    }
+    
+    // Return the relative weights of all nutrients in a dictionary
+    return relativeNutrientWeights
+    
+}
+
+
+
 func extractRows(fullTextWithNewlines: String) -> [String] {
     
     var rows: [String] = []
@@ -146,6 +214,7 @@ func extractRows(fullTextWithNewlines: String) -> [String] {
     
     return rows
 }
+
 
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
@@ -161,6 +230,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
@@ -172,6 +242,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
+
 func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
     UIGraphicsBeginImageContext(imageSize)
     image.draw(in: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
@@ -180,6 +251,7 @@ func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
     UIGraphicsEndImageContext()
     return resizedImage!
 }
+
 
 
 func base64EncodeImage(_ image: UIImage) -> String {
@@ -194,3 +266,4 @@ func base64EncodeImage(_ image: UIImage) -> String {
     
     return imagedata!.base64EncodedString(options: .endLineWithCarriageReturn)
 }
+

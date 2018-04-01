@@ -18,9 +18,9 @@ class GroceryItem {
         name = itemName
         keyID = getKey(nameOfItem: itemName)
         if let key = keyID {
-            nutritionDict = GetNutrientInfo(usdaFoodID: key)
+            self.nutritionDict = GetNutrientInfo(usdaFoodID: key)
         } else {
-            nutritionDict = [:]
+            self.nutritionDict = [:]
         }
     }
     
@@ -54,28 +54,45 @@ func GetNutrientInfo(usdaFoodID: String) -> [String : Double] {
     
     // Parse the response JSON for the nutrients we want:
     // { Protein [ID 203]; Total lipid (fat) [ID 204]; Carbohydrate, by difference [ID 205]; Sugars, total [ID 269]; Fiber, total dietary [ID 291] }
-    var nutrientDict: [String:Double] = [:]  // Dictionary holding nutrient types and the number of grams of that nutrient per 100g of food
+    var nutrDict: [String:Double] = [:]  // Dictionary holding nutrient types and the number of grams of that nutrient per 100g of food
+    let nutrIdList = [ 203, 204, 205, 269, 291 ]
+    let nutrTranslateDict: [Int:String] = [ 203:"Protein", 204:"Fats", 205:"Carbohydrates", 269:"Sugars", 291:"Dietary Fiber"]
+    
+    for nutr in nutrIdList {
+        nutrDict[nutrTranslateDict[nutr]!] = 0.0
+    }
+    
     if let _ = responseJSON["foods"] {
         
         let foods = responseJSON["foods"] as! [[String:Any]]
-        /*let nutrients = foods[0]["nutrients"] as! [[String:Any]]  // List of dicts
+        let food = foods[0]["food"] as! [String:Any]
+        let nutrients = food["nutrients"] as! [[String:Any]]  // List of dicts
+        
+        //print(nutrients)
         
         // Search all nutrient types for ones we care about
-        let nutrIdList = [ 203, 204, 205, 269, 291 ]
-        let nutrTranslateDict: [Int:String] = [ 203:"Protein", 204:"Fats", 205:"Carbohydrates", 269:"Sugars", 291:"Dietary Fiber"]
+        
         for nutr in nutrients {
             for id in nutrIdList {
-                let specificNutrientID = nutr["nutrient_id"] as! Int
-                if (specificNutrientID == id) {
+                var idInJSON = nutr["nutrient_id"]
+                let specificNutrientID: String = "\(idInJSON!)"
+                //print("------------ FOOD ID = " + usdaFoodID + " ------------ " + specificNutrientID + " ------------")
+                if (Int(specificNutrientID) == id) {
                     let nutrientName: String = nutrTranslateDict[id]!
-                    let nutrientValue: Double = nutr["value"] as! Double
-                    nutrientDict[nutrientName] = nutrientValue
+                    let nutrientValue: String = "\(nutr["value"]!)"
+                    nutrDict[nutrientName] = Double(nutrientValue)  // Grams of nutrient per 100g of food
+                    //print("i ran" + String(nutrDict.count))
+                    break  // Found the nutrient, stop searching
+                } else {
+                    //print("i didn't run :(")
                 }
             }
-        }*/
+        }
+        
     }
     
-    return nutrientDict
+    //print("$$$$$$$$$ - " + String(nutrDict.count) + "$$$$$$$$$$$$$")
+    return nutrDict
     
 }
 
@@ -95,7 +112,7 @@ func getKey(nameOfItem: String) -> String? {
     var JSONresponse : [String:Any]
     JSONresponse = RESTCall(url: search_URL, jsonRequestAsDictionary: nil).doRESTCall()
     print("Done with NIH API REST call")
-    print(JSONresponse)
+    //print(JSONresponse)
     // extract nbdno value from JSON, which is the key
     var foodID: String? = nil
     if let _ = JSONresponse["list"] {  // Test that there are no errors (success if "list" exists, fail if "errors" exists)
