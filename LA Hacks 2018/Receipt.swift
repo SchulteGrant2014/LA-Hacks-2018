@@ -8,52 +8,63 @@
 
 import UIKit
 
-
 class Receipt {
-    
     // -------------------- Member Variables --------------------
-    
-    
+    var itemList: [GroceryItem]
     
     // -------------------- Member Functions --------------------
     
     init(image: UIImage) {
-        var googleVisionJSON: [String:Any] = MakeGoogleVisionAPIRestCall(image: image)  // Call the Google Vision API to return a json
-        
+        itemList = MakeItemList(image: image)
     }
+}
+
+
+// ------------------------- GOOGLE VISION API REST CALL -------------------------
+
+func MakeGoogleVisionAPIRestCall(image: UIImage) -> [String : Any] {
+    let googleVisionAPI_url : String = "https://vision.googleapis.com/v1/images:annotate"
+    let apiKey_url : String = "AIzaSyBGDpjGUxH2Qz5STe50j4QZl-mTeco0ms8"
+    let url_string : String = googleVisionAPI_url + "?key=" + apiKey_url
     
-    
-    // ------------------------- GOOGLE VISION API REST CALL -------------------------
-    
-    private func MakeGoogleVisionAPIRestCall(image: UIImage) -> [String : Any] {
-        let googleVisionAPI_url : String = "https://vision.googleapis.com/v1/images:annotate"
-        let apiKey_url : String = "AIzaSyBGDpjGUxH2Qz5STe50j4QZl-mTeco0ms8"
-        let url_string : String = googleVisionAPI_url + "?key=" + apiKey_url
-        
-        // Convert image to base64 format
-        let image_as_base64: String = base64EncodeImage(image)
-        // JSON request data
-        let data = [
-            "requests": [
-                "image": [
-                    "content": image_as_base64
-                ],
-                "features": [
-                    [
-                        "type": "DOCUMENT_TEXT_DETECTION"//,
-                        //"maxResults": 10
-                    ]
+    // Convert image to base64 format
+    let image_as_base64: String = base64EncodeImage(image)
+    // JSON request data
+    let data = [
+        "requests": [
+            "image": [
+                "content": image_as_base64
+            ],
+            "features": [
+                [
+                    "type": "DOCUMENT_TEXT_DETECTION"//,
+                    //"maxResults": 10
                 ]
             ]
         ]
-        
-        // Perform a REST_API call to the Google Vision API
-        let apiResponseJSON = RESTCall(url: url_string, jsonRequestAsDictionary: data).doRESTCall()
-        
-        return apiResponseJSON
-        
-    }
+    ]
     
+    // Perform a REST_API call to the Google Vision API
+    let apiResponseJSON = RESTCall(url: url_string, jsonRequestAsDictionary: data).doRESTCall()
+    
+    return apiResponseJSON
+    
+}
+
+
+//extract individual items given an imageJson
+func MakeItemList(image: UIImage) -> [GroceryItem] {
+    var googleVisionJSON: [String:Any] = MakeGoogleVisionAPIRestCall(image: image)  // Call the Google Vision API to return a json
+    
+    let image_text : String
+    image_text = extractText(JSON: googleVisionJSON)
+    
+    return []
+}
+
+func extractText(JSON:[String:Any] ) -> String {
+    
+    return ""
 }
 
 

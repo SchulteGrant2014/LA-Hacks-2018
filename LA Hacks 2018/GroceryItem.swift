@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Item{
+class GroceryItem{
     let name: String
     let keyID: String
     let price: double_t
