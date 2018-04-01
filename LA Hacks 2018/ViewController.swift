@@ -9,6 +9,7 @@
 import UIKit
 
 
+
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     // -------------------- Member Variables ---------------------
@@ -16,12 +17,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var receipts: [Receipt] = []
     
     
-    
     // -------------------- Default functions --------------------
+    
+    func userData() {
+        // call class method
+        var userDefaults = UserDefaults.standard
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        // Do any additional setup after loading the view, typically from a nib.        
         var testReceipt: Receipt
         if let img = UIImage(named: "tj4") {
             testReceipt = Receipt(image: img)
