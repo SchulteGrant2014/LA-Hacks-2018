@@ -38,21 +38,18 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="YZV-xH-yhP" appends="YES" id="AOU-C1-jiR"/>
-                            <outletCollection property="gestureRecognizers" destination="JQn-7u-biJ" appends="YES" id="R2v-Ev-4Nv"/>
-                            <outletCollection property="gestureRecognizers" destination="JQn-7u-biJ" appends="YES" id="4G7-yL-KP4"/>
                         </connections>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="YZV-xH-yhP">
+                <swipeGestureRecognizer direction="up" id="YZV-xH-yhP">
                     <connections>
                         <action selector="openImageViewController:" destination="BYZ-38-t0r" id="YBD-yu-xcI"/>
-                        <segue destination="ssh-0q-ck0" kind="show" id="wdn-tg-Klr"/>
+                        <segue destination="ssh-0q-ck0" kind="show" id="HEp-yv-HAD"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="left" id="JQn-7u-biJ"/>
             </objects>
-            <point key="canvasLocation" x="104.8" y="32.833583208395808"/>
+            <point key="canvasLocation" x="-1425" y="33"/>
         </scene>
         <!--Add Image View Controller-->
         <scene sceneID="87P-S5-ybU">
@@ -96,6 +93,7 @@
                             <outletCollection property="gestureRecognizers" destination="tBQ-ag-PAV" appends="YES" id="zb2-jj-Yua"/>
                         </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="C88-R9-y1A"/>
                     <connections>
                         <outlet property="Camera" destination="XNg-qh-PQ4" id="Yva-Mc-K2v"/>
                         <outlet property="ImageDisplay" destination="HMo-K1-JwD" id="qEx-Mh-6zc"/>
@@ -103,7 +101,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5y-Pi-aI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="tBQ-ag-PAV">
+                <swipeGestureRecognizer direction="down" id="tBQ-ag-PAV">
                     <connections>
                         <segue destination="rnx-Iq-ZL1" kind="unwind" unwindAction="unwindToViewController:" id="yii-Xs-luZ"/>
                     </connections>
