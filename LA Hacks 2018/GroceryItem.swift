@@ -58,7 +58,7 @@ func GetNutrientInfo(usdaFoodID: String) -> [String : Double] {
     if let _ = responseJSON["foods"] {
         
         let foods = responseJSON["foods"] as! [[String:Any]]
-        let nutrients = foods[0]["nutrients"] as! [[String:Any]]  // List of dicts
+        /*let nutrients = foods[0]["nutrients"] as! [[String:Any]]  // List of dicts
         
         // Search all nutrient types for ones we care about
         let nutrIdList = [ 203, 204, 205, 269, 291 ]
@@ -72,7 +72,7 @@ func GetNutrientInfo(usdaFoodID: String) -> [String : Double] {
                     nutrientDict[nutrientName] = nutrientValue
                 }
             }
-        }
+        }*/
     }
     
     return nutrientDict
