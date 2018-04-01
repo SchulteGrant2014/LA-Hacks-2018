@@ -15,7 +15,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // -------------------- Member Variables ---------------------
     
     var receipts: [Receipt] = []
-    
+    var idealRelativeNutrientPerc: [String:Double] = [ "Protein":11.34594, "Fats":13.570634, "Carbohydrates":61.179088, "Sugars":6.896552, "Dietary Fiber":7.007786 ]
+    // Nutrients = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
     
     // -------------------- Default functions --------------------
     
@@ -29,10 +30,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.        
         var testReceipt: Receipt
-        if let img = UIImage(named: "tj4") {
+        if let img = UIImage(named: "tj1") {
             testReceipt = Receipt(image: img)
         } else {
-            print("I didn't run :(")
+            //print("I didn't run :(")
         }
     }
     
@@ -41,7 +42,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     
     // -------------------- UI Element Function Connections --------------------
@@ -56,6 +56,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+    
     
 }
 

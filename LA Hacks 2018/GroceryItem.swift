@@ -68,20 +68,19 @@ func GetNutrientInfo(usdaFoodID: String) -> [String : Double] {
         let food = foods[0]["food"] as! [String:Any]
         let nutrients = food["nutrients"] as! [[String:Any]]  // List of dicts
         
-        print(nutrients)
+        //print(nutrients)
         
         // Search all nutrient types for ones we care about
         
         for nutr in nutrients {
             for id in nutrIdList {
                 var idInJSON = nutr["nutrient_id"]
-                //let specificNutrientID: String = idInJSON as! NSString
                 let specificNutrientID: String = "\(idInJSON!)"
-                print("------------ FOOD ID = " + usdaFoodID + " ------------ " + specificNutrientID + " ------------")
+                //print("------------ FOOD ID = " + usdaFoodID + " ------------ " + specificNutrientID + " ------------")
                 if (Int(specificNutrientID) == id) {
                     let nutrientName: String = nutrTranslateDict[id]!
                     let nutrientValue: String = "\(nutr["value"]!)"
-                    nutrDict[nutrientName] = Double(nutrientValue)
+                    nutrDict[nutrientName] = Double(nutrientValue)  // Grams of nutrient per 100g of food
                     //print("i ran" + String(nutrDict.count))
                     break  // Found the nutrient, stop searching
                 } else {
@@ -92,7 +91,7 @@ func GetNutrientInfo(usdaFoodID: String) -> [String : Double] {
         
     }
     
-    print("$$$$$$$$$ - " + String(nutrDict.count) + "$$$$$$$$$$$$$")
+    //print("$$$$$$$$$ - " + String(nutrDict.count) + "$$$$$$$$$$$$$")
     return nutrDict
     
 }
@@ -113,7 +112,7 @@ func getKey(nameOfItem: String) -> String? {
     var JSONresponse : [String:Any]
     JSONresponse = RESTCall(url: search_URL, jsonRequestAsDictionary: nil).doRESTCall()
     print("Done with NIH API REST call")
-    print(JSONresponse)
+    //print(JSONresponse)
     // extract nbdno value from JSON, which is the key
     var foodID: String? = nil
     if let _ = JSONresponse["list"] {  // Test that there are no errors (success if "list" exists, fail if "errors" exists)
