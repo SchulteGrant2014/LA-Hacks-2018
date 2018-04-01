@@ -14,7 +14,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     // -------------------- Member Variables ---------------------
     
-    var receipts: [Receipt] = []
+    var receipts: [Receipt] = []        // full list of receipts, size ranges from 0 to 6
+    var pastReceipts: [Receipt] = []    // list of past receipts, size ranges from 0 to 5
+    var currentReceipt: Receipt?        // current receipts,      size ranges from 0 to 1
     
     // chart stuff
     var pieChartView: PieChartView!
@@ -34,11 +36,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.        
         var testReceipt: Receipt
-        if let img = UIImage(named: "tj4") {
-            testReceipt = Receipt(image: img)
-        } else {
-            print("I didn't run :(")
-        }
+        
         
         //charts
         //categories of nutrients
@@ -157,10 +155,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func unwindToViewController(_ sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? AddImageViewController {
             if let image = sourceViewController.ImageDisplay.image {
-                if receipts.count == 5 {
+                
+                // Note: for empty receipts list we construct the graphs on startup
+                
+                // Check for full set of receipts, pop off first index
+                if receipts.count > 5 {
                     receipts.removeFirst(1)
                     receipts.append(Receipt(image: image))
-                } else {receipts.append(Receipt(image: image))}
+                }
+                else {
+                    receipts.append(Receipt(image: image))
+//                    let pastReceiptSize = receipts.count - 2 // will iterate from 0 to (count-2)
+//                    currentReceipt = receipts[receipts.endIndex] // add current receipt
+//
+//                    // generate past receipts array
+//                    for receipt in 0...pastReceiptSize {
+//                        pastReceipts.append(receipts[receipt])
+//                    }
+                }
+
+                
             }
         }
     }
