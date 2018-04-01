@@ -20,28 +20,88 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     // chart stuff
-    var pieChartView: PieChartVirew!
+    var pieChartView: PieChartView!
     var lineChartView: LineChartView!
     
     
     // -------------------- Default functions --------------------
     
-    func userData() {
-        // call class method
-        var userDefaults = UserDefaults.standard
+    func saveUserDefaults() {
+        let defaults = UserDefaults.standard
+        print("AAAAAAAAhhhhhhhh")
+        var primitives: [[Any]] = []
+        for receipt in receipts {
+            primitives.append(receipt.convertToPrimitives())
+        }
         
+        // Go through all primitive properties, save in a list in User Defaults
+        var i: Int = 1;
+        for primitive_receipt in primitives {
+            var nutrWeights: [String:Double] = primitive_receipt[0] as! [String:Double]
+            var nutrFacts: [String:Double] = primitive_receipt[1] as! [String:Double]
+            var items: [[Any]] = primitive_receipt[2] as! [[Any]]
+            var itemNames: [String] = []
+            var itemKeys: [String] = []
+            var itemNutrDicts: [[String:Double]] = []
+            for item in items {
+                itemNames.append(item[0] as! String)
+                itemKeys.append(item[1] as! String)
+                itemNutrDicts.append(item[2] as! [String:Double])
+            }
+            var receiptKey: String = "Receipt-" + String(i) + "-"
+            defaults.set(nutrWeights, forKey: (receiptKey + "nutrWeights"))
+            defaults.set(nutrFacts, forKey: (receiptKey + "nutrFacts"))
+            defaults.set(itemNames, forKey: (receiptKey + "itemNames"))
+            defaults.set(itemKeys, forKey: (receiptKey + "itemKeys"))
+            defaults.set(itemNutrDicts, forKey: (receiptKey + "itemNutrDicts"))
+            i += 1
+        }
+        defaults.set(i, forKey: "NumberOfReceipts")
         
+        print("AAAAAAAAAA Saved user defaults, number of receipts = " + String(self.receipts.count))
     }
+    
+    
+    func loadUserDefaults() {
+        let defaults = UserDefaults.standard
+        var receiptList: [Receipt] = []
+        if let numReceipts = defaults.value(forKey: "NumberOfReceipts") as? Int {
+            for i in 1...(numReceipts) {  // Get all receipts back into normal form
+                
+                var receiptKey: String = "Receipt-" + String(i) + "-"
+                if let weights = defaults.value(forKey: (receiptKey + "nutrWeights")) as? [String:Double] {
+                    var nutrWeights: [String:Double] = weights
+                    var nutrFacts: [String:Double] = defaults.value(forKey: (receiptKey + "nutrFacts")) as! [String:Double]
+                    var itemNames: [String] = defaults.value(forKey: (receiptKey + "itemNames")) as! [String]
+                    var itemKeys: [String] = defaults.value(forKey: (receiptKey + "itemKeys")) as! [String]
+                    var itemNutrDicts: [[String:Double]] = defaults.value(forKey: (receiptKey + "itemNutrDicts")) as! [[String:Double]]
+                    
+                    var newReceipt: Receipt = Receipt(nutrWeights: nutrWeights, nutrFacts: nutrFacts, itemNames: itemNames, itemKeys: itemKeys, itemNutrDicts: itemNutrDicts)
+                    
+                    receiptList.append(newReceipt)
+                }
+            }
+        }
+        receipts = receiptList  // Update the receipts to reflect those in UserDefaults data
+    }
+    
+    
+    func clearUserDefaults() {
+        let defaults = UserDefaults.standard
+        defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        defaults.synchronize()
+        print("AAAAAAAAAA User Defaults have been cleared, number of Receipts = " + String(self.receipts.count))
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.        
-        var testReceipt: Receipt
-        if let img = UIImage(named: "tj1") {
-            testReceipt = Receipt(image: img)
-        } else {
-            //print("I didn't run :(")
-        }
+        
+        // Load user defaults
+        //clearUserDefaults()
+        loadUserDefaults()
+        print("AAAAAA" + String(self.receipts.count))
         
         //charts
         //categories of nutrients
@@ -157,12 +217,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // -------------------- UI Element Function Connections --------------------
     
     @IBAction func unwindToViewController(_ sender: UIStoryboardSegue) {
+        print("AAAAAAAA Entered unwind segue")
         if let sourceViewController = sender.source as? AddImageViewController {
+            print("AAAAAAAAA Entered first if in unwind")
             if let image = sourceViewController.ImageDisplay.image {
+                print("AAAAAAAAAA Entered image if in unwind")
+                let newReceipt: Receipt = Receipt(image: image)
+                print("AAAAAAAAA Finished making new receipt in unwind")
                 if receipts.count == 5 {
                     receipts.removeFirst(1)
-                    receipts.append(Receipt(image: image))
-                } else {receipts.append(Receipt(image: image))}
+                    receipts.append(newReceipt)
+                    print("AAAAAAA About to save user defaults in if...")
+                    saveUserDefaults()
+                } else {
+                    receipts.append(newReceipt)
+                    print("AAAAAAA About to save user defaults in else...")
+                    saveUserDefaults()
+                }
             }
         }
     }

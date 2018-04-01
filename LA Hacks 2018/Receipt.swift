@@ -8,22 +8,56 @@
 
 import UIKit
 
-class Receipt {
+class Receipt : NSObject {
     
     // -------------------- Member Variables --------------------
     
-    var itemList: [GroceryItem]
-    var nutrientWeightsOfTotal: [String:Double]  // Store percent by weight of nutrient out of total weight of food
-    var nutritionFactsTotal: [String:Double]  // Store percentages of each macronutrient by weight relative to each other
+    var itemList: [GroceryItem] = []
+    var nutrientWeightsOfTotal: [String:Double] = [:]  // Store percent by weight of nutrient out of total weight of food
+    var nutritionFactsTotal: [String:Double] = [:]  // Store percentages of each macronutrient by weight relative to each other
     // Nutrients = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
     
     // -------------------- Member Functions --------------------
     
     init(image: UIImage) {
         self.itemList = MakeItemList(image: image)
+        print("AAAAAAAA Successfully made itemList in Receipt.swift")
         self.nutrientWeightsOfTotal = PercentOfNutrientsPerTotalWeightOfFood(foods: itemList)
+        print("AAAAAAAA Successfully made nutrientWeights in Receipt.swift")
         self.nutritionFactsTotal = RelativeGroceryNutrients(nutrientWeights: self.nutrientWeightsOfTotal)
+        print("AAAAAAAA Successfully made nutritionFacts in Receipt.swift")
     }
+    
+    
+    init(nutrWeights: [String:Double], nutrFacts: [String:Double], itemNames: [String], itemKeys: [String], itemNutrDicts: [[String:Double]]) {
+        
+        var items: [GroceryItem] = []
+        for i in 0...(itemNames.count - 1) {
+            items.append(GroceryItem(itemName: itemNames[i], itemKey: itemKeys[i], itemDict: itemNutrDicts[i]))
+        }
+        
+        self.itemList = items
+        self.nutrientWeightsOfTotal = nutrWeights
+        self.nutritionFactsTotal = nutrFacts
+        
+    }
+    
+    
+    
+    
+    func convertToPrimitives() -> [Any] {
+        var conversionList: [Any] = [nutrientWeightsOfTotal, nutritionFactsTotal]
+        var listOfItems: [[Any]] = []
+        for item in self.itemList {
+            listOfItems.append([item.name, item.keyID, item.nutritionDict])
+        }
+        
+        conversionList.append(listOfItems)
+        
+        return conversionList
+    }
+    
+    
 }
 
 
@@ -132,9 +166,11 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
     print("List of groceries")
     print("List of groceries")
     print("List of groceries")
+    /*
     for x in listOfGroceries {
         print(x.name + "     " + x.keyID!)
     }
+ */
     
     return listOfGroceries  // Return list of grocery items inferred from all rows of receipt
 }
@@ -143,10 +179,16 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
 
 func PercentOfNutrientsPerTotalWeightOfFood(foods: [GroceryItem]) -> [String:Double] {
     
-    // Go through each nutrient in each item, storing the sum in a dictionary
-    
     var aggregateDict : [String:Double] = [:]
     let nutrList = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
+    
+    // If list is empty, return list of zeroes
+    if (foods.count == 0) {
+        return ["Protein":0.0,"Fats":0.0,"Carbohydrates":0.0,"Sugars":0.0,"Dietary Fiber":0.0]
+    }
+    
+    // Go through each nutrient in each item, storing the sum in a dictionary
+    
     for item in foods {
         for nutrient in nutrList {
             let valPer100g = item.nutritionDict[nutrient]!
@@ -167,10 +209,12 @@ func PercentOfNutrientsPerTotalWeightOfFood(foods: [GroceryItem]) -> [String:Dou
     }
     
     // Check nutrient values of all foods
+    /*
     print("\n")
     for nutr in nutrList {
         print(nutr + " = Aggregate " + String(aggregateDict[nutr]!))
     }
+     */
     
     // Find the total
     
@@ -194,9 +238,11 @@ func RelativeGroceryNutrients(nutrientWeights: [String:Double]) -> [String:Doubl
     }
     
     // Print the results
+    /*
     for nutrient in relativeNutrientWeights {
         print(nutrient.key + " = " + String(nutrient.value) + "% of all macronutrients")
     }
+     */
     
     // Return the relative weights of all nutrients in a dictionary
     return relativeNutrientWeights

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GroceryItem {
+class GroceryItem : NSObject {
     
     let name: String
     let keyID: String?
@@ -22,6 +22,12 @@ class GroceryItem {
         } else {
             self.nutritionDict = [:]
         }
+    }
+    
+    init(itemName: String, itemKey: String, itemDict: [String:Double]) {
+        self.name = itemName
+        self.keyID = itemKey
+        self.nutritionDict = itemDict
     }
     
     
