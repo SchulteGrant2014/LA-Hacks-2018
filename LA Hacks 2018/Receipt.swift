@@ -13,14 +13,14 @@ class Receipt {
     // -------------------- Member Variables --------------------
     
     var itemList: [GroceryItem]
-    var nutritionFactsTotal: [String:Double]  // Store percentages of food by weight for each macronutrient
+    var nutritionFactsTotal: [String:Double]  // Store percentages of food (by weight) for each macronutrient
     
     
     // -------------------- Member Functions --------------------
     
     init(image: UIImage) {
         self.itemList = MakeItemList(image: image)
-        self.nutritionFactsTotal = [:]
+        self.nutritionFactsTotal = AggregateGroceryNutrients(foods: itemList)
     }
 }
 
@@ -136,6 +136,42 @@ func MakeItemList(image: UIImage) -> [GroceryItem] {
     
     return listOfGroceries  // Return list of grocery items inferred from all rows of receipt
 }
+
+func AggregateGroceryNutrients(foods: [GroceryItem]) -> [String:Double] {
+    
+    // Go through each nutrient in each item, storing the sum in a dictionary
+    
+    var aggregateDict : [String:Double] = [:]
+    let nutrList = ["Protein","Fats","Carbohydrates","Sugars","Dietary Fiber"]
+    for item in foods {
+        for nutrient in nutrList {
+            let valPer100g = item.nutritionDict[nutrient]!
+            print(item.name + "  " + nutrient + " = " + String(valPer100g))
+            if let existingValOfNutrient = aggregateDict[nutrient] {
+                aggregateDict[nutrient] = existingValOfNutrient + valPer100g
+            } else {
+                aggregateDict[nutrient] = valPer100g
+            }
+        }
+    }
+    
+    for nutrient in nutrList {
+        let numberOfFoods: Int = foods.count
+        if let nutrVal = aggregateDict[nutrient] {
+            aggregateDict[nutrient] = nutrVal / Double(numberOfFoods)
+        }
+    }
+    
+    // Check nutrient values of all foods
+    print("\n")
+    for nutr in nutrList {
+        print(nutr + " = Aggregate " + String(aggregateDict[nutr]!))
+    }
+    
+    return aggregateDict
+}
+
+
 
 func extractRows(fullTextWithNewlines: String) -> [String] {
     
