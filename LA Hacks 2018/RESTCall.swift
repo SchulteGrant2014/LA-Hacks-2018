@@ -30,6 +30,7 @@ class RESTCall {
         while(self.jsonResponse == nil) {
             // print("Waiting")
         }
+        print("Done calling REST backend")
         return self.jsonResponse!
     }
     

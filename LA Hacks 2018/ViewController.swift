@@ -23,10 +23,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.        
         var testReceipt: Receipt
-        if let img = UIImage(named: "tj6") {
+        if let img = UIImage(named: "tj4") {
             testReceipt = Receipt(image: img)
-        }
-        else {
+        } else {
             print("I didn't run :(")
         }
     }
