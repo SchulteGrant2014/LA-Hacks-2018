@@ -30,7 +30,7 @@ class RESTCall {
         while(self.jsonResponse == nil) {
             // print("Waiting")
         }
-        print("Done calling REST backend")
+        //print("Done calling REST backend")
         return self.jsonResponse!
     }
     
@@ -76,7 +76,7 @@ class RESTCall {
                     print("Could not get JSON from responseData as dictionary")
                     return
                 }
-                print("Data received...!")
+                //print("Data received...!")
                 self.jsonResponse = receivedData
             } catch {
                 print("error parsing response from POST on /todos")

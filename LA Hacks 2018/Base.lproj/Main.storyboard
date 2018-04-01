@@ -13,8 +13,6 @@
         <!--About Controller-->
         <scene sceneID="WeT-ie-Vdu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2gB-0b-bFt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="8aE-w5-Q7O" userLabel="Exit" sceneMemberID="exit"/>
                 <viewController id="1SH-PU-sCO" customClass="aboutController" customModule="LA_Hacks_2018" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SbZ-PL-mkB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -64,6 +62,7 @@
                         <viewLayoutGuide key="safeArea" id="ZT5-rM-Xas"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2gB-0b-bFt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1420" y="-697.60119940029995"/>
         </scene>
@@ -100,7 +99,7 @@
                                     <color key="titleColor" red="0.83001770470000003" green="0.9576336473" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <segue destination="8aE-w5-Q7O" kind="unwind" unwindAction="unwindToViewController:" id="qVc-xF-K1p"/>
+                                    <segue destination="1SH-PU-sCO" kind="show" id="GWf-3B-V3l"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="29939054_1639161769464380_1875009876_n" translatesAutoresizingMaskIntoConstraints="NO" id="igk-Hc-0f7">
@@ -119,7 +118,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="up" id="YZV-xH-yhP">
                     <connections>
-                        <action selector="openImageViewController:" destination="BYZ-38-t0r" id="YBD-yu-xcI"/>
                         <segue destination="ssh-0q-ck0" kind="show" id="HEp-yv-HAD"/>
                     </connections>
                 </swipeGestureRecognizer>
@@ -158,7 +156,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Upload Your Receipt Below" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kZZ-oU-Fs4">
-                                <rect key="frame" x="92" y="138" width="191" height="88"/>
+                                <rect key="frame" x="55" y="138" width="264" height="88"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                 <color key="textColor" red="0.56590025909999997" green="0.56590025909999997" blue="0.56590025909999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

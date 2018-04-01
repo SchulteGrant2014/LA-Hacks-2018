@@ -47,5 +47,10 @@ class AddImageViewController: UIViewController, UIImagePickerControllerDelegate,
         dismiss(animated: true, completion: nil)
     }
     
+    // Add image to UIImageView when button is pressed, so when segue occurs the receipt is created
+    @IBAction func createReceiptButton(_ sender: UIButton) {
+        ImageDisplay.image = UIImage(named: "tj3")
+    }
+    
 }
 
