@@ -54,17 +54,23 @@ func MakeGoogleVisionAPIRestCall(image: UIImage) -> [String : Any] {
 
 //extract individual items given an imageJson
 func MakeItemList(image: UIImage) -> [GroceryItem] {
+    
     var googleVisionJSON: [String:Any] = MakeGoogleVisionAPIRestCall(image: image)  // Call the Google Vision API to return a json
     
-    let image_text : String
-    image_text = extractText(JSON: googleVisionJSON)
+    let response = googleVisionJSON["responses"] as! [[String:Any]]
+    let textAnnotations = response[0]["textAnnotations"] as! [[String:Any]]
+    let fullText: String = textAnnotations[0]["description"] as! String
     
+    //var rowsText: [String] = extractText(fullTextWithNewlines: fullText)
+    print(fullText)
     return []
 }
 
-func extractText(JSON:[String:Any] ) -> String {
+func extractText(fullTextWithNewlines: String) -> [String] {
     
-    return ""
+    
+    
+    return []
 }
 
 

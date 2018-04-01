@@ -6,9 +6,9 @@
 //  Copyright © 2018 Consonants. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class GroceryItem{
+class GroceryItem {
     let name: String
     let keyID: String
     let price: double_t
