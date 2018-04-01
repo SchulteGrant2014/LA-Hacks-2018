@@ -11,8 +11,9 @@ import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    
     // -------------------- Member Variables ---------------------
+    
+    var receipts: [Receipts]
     
     
     
@@ -34,13 +35,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // -------------------- UI Element Function Connections --------------------
     
-    @IBAction func openImageViewController(_ sender: Any) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .camera;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
+    @IBAction func unwindToViewController(_ sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? AddImageViewController {
+            if let image = sourceViewController.ImageDisplay.image {
+                if receipts.count == 5 {
+                    receipts.removeFirst(1)
+                    receipts.append(Receipts(image: image))
+                }
+            }
         }
     }
     
