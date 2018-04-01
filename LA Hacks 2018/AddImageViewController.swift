@@ -8,10 +8,12 @@
 
 import UIKit
 
-class AddImageViewController: UIViewController {
+class AddImageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    // init buttons and imageview
     @IBOutlet weak var Camera: UIButton!
-    
+    @IBOutlet weak var PhotoLibrary: UIButton!
+    @IBOutlet weak var ImageDisplay: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +25,27 @@ class AddImageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
  
+    // open camera to take image
     @IBAction func CameraAction(_ sender: UIButton) {
         let picker = UIImagePickerController()
-        picker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        picker.delegate = self
         picker.sourceType = .camera
         present(picker, animated: true, completion: nil)
     }
     
+    // open photos to load image
+    @IBAction func PhotoLibraryAction(_ sender: UIButton) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true, completion: nil)
+    }
+    
+    // see image in viewer
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        ImageDisplay.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        dismiss(animated: true, completion: nil)
+    }
     
 }
 
